@@ -1,7 +1,12 @@
 import React from 'react'
 
- const VideoListItem = ({movie}) => {
-  return <li>Film recommandé : {movie}</li>
- }
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
 
- export default VideoListItem;
+const VideoListItem = ({movie}) => {
+  return <li>
+    <img height='100px' width='auto' src={`${IMAGE_BASE_URL}${movie.poster_path}`}/>
+    <p>{movie.title}</p>
+  </li>
+}
+
+export default VideoListItem;
