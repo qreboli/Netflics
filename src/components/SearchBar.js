@@ -4,13 +4,23 @@ class SearchBar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {searchText: '', placeHolder: 'Taper votre film...'}
+    this.state = {
+      searchText: '',
+      placeHolder: 'Taper votre film...',
+      intervalBeforeRequest: 1000,
+      lockRequest: false
+    }
   }
 
   render() {
     return (
-      <div>
-        <input onChange={this.handleChange.bind(this)} placeholder={this.state.placeHolder}/>
+      <div className='row'>
+        <div className='col-md-8 input-group'>
+        <input type='text' className='form-control input-lg' onChange={this.handleChange.bind(this)} placeholder={this.state.placeHolder}/>
+          <span className='input-group-btn'>
+            <button className='btn btn-secondary' onClick={this.handleOnClick.bind(this)}>GO</button>
+          </span>
+        </div>
       </div>
 
     )
@@ -18,6 +28,18 @@ class SearchBar extends React.Component {
 
   handleChange(event){
     this.setState({searchText:event.target.value});
+    if(!this.state.lockRequest){
+      this.setState({lockRequest:true});
+      setTimeout(function (){this.search()}.bind(this),this.state.intervalBeforeRequest)
+    }
+
+  }
+  handleOnClick(){
+    this.search();
+  }
+  search() {
+    this.props.callback(this.state.searchText);
+    this.setState({lockRequest: false})
   }
 
 }
